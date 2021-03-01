@@ -1,0 +1,163 @@
+<robot name='atpbot'>
+ <material name="black">
+      <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="dark">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+
+  <material name="light_black">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1.0"/>
+  </material>
+
+  <material name="orange">
+    <color rgba="1.0 0.4235 0.0392 1.0"/>
+  </material>
+
+  <material name="brown">
+    <color rgba="0.8706 0.8118 0.7647 1.0"/>
+  </material>
+
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+    <link name='base_frame'>
+      <inertial>
+        <mass value = "40"/>
+        <inertia ixx = "1.87814" ixy = "0" ixz = "0" iyy = "4.65314" iyz = "0" izz = "6.04167"/>
+        <origin/>
+      </inertial>
+      
+      <visual>
+        <origin xyz = "0 0 0" rpy = "0 0 0"/>
+        <geometry>
+          <box size = "1.15 0.7 0.271" />
+        </geometry>
+  <material name="light_black" />
+      </visual>
+      
+     <collision name='collision'>
+        <origin xyz = "0 0 0" rpy = "0 0 0"/>
+        <geometry>
+            <box size = "1.15 0.7 0.271" />
+        </geometry>
+        <contact_coefficients mu="1" mu2 = "1" fdir1 = "0 0 0" slip1 = "0" slip2="0"/>
+      </collision>
+    </link> 
+    
+    <link name='base_footprint'>  
+    </link>  
+
+    <link name='base_scan'>
+      
+      <inertial>
+       <mass value = "0.1"/>
+        <inertia ixx = "0.1" ixy = "0" ixz = "0" iyy = "0.05" iyz = "0" izz = "0.1"/>       
+        <pose>0 0 0 0 -0 0</pose>
+      </inertial>
+      <visual name='laser_visual'>
+        <origin xyz = "-0.0 -0 -0.0" rpy = "1.5707 0 1.5707"/>
+        <geometry>
+            <box size = "0.1 0.1 0.1" />
+        </geometry>
+       <material name="orange" />
+      </visual>
+    </link>
+    
+    <link name='left_motor'>
+      <inertial>
+        <mass value = "3"/>
+        <inertia ixx = "0" ixy = "0" ixz = "0" iyy="0" iyz="0" izz="0"/>
+        
+      </inertial>
+      
+    
+      <visual>
+        <origin xyz = "0 0 0" rpy ="0 -0 0"/>
+        <geometry>
+           <mesh filename="package://atpbot_simulation/meshes/wheels/Left_motor.stl"/>
+        </geometry>
+      <material name="white" />
+      </visual>
+          <collision>
+        <origin xyz ="0 0 0" rpy = "0 -0 0"/>
+        <geometry>
+          <mesh filename="package://atpbot_simulation/meshes/wheels/Left_motor.stl" scale="1 1 1"/>
+        </geometry>
+      </collision>
+    </link>
+    
+    
+    <link name='right_motor'>
+      <inertial>
+        <mass value = "3"/>
+        <inertia ixx = "0" ixy = "0" ixz = "0" iyy="0" iyz="0" izz="0"/>
+     
+      </inertial>
+      
+    
+      <visual>
+       <origin xyz="0 0 0" rpy="0 -0 3.14"/>
+        <geometry>
+           <mesh filename="package://atpbot_simulation/meshes/wheels/Right_motor.stl"/>
+        </geometry>
+      <material name="white" />
+      </visual>
+     <collision>
+        <origin xyz ="0 0 0" rpy = "0 -0 0"/>
+        <geometry>
+          <mesh filename="package://atpbot_simulation/meshes/wheels/Right_motor.stl" scale="1 1 1"/>
+        </geometry>
+      </collision>
+    </link>
+    
+        <joint name='footprint_joint' type='fixed'>
+     <origin xyz = "0 0 0.113" />
+    <parent link="base_footprint"/>
+    <child link="base_frame"/>
+    </joint>
+    
+    <joint name='laser_joint' type='fixed'>
+     <origin xyz = "0.59 -0 -0.1" />
+    <parent link="base_frame"/>
+    <child link="base_scan"/>
+    </joint>
+    
+    
+    
+  <joint name="wheel_left_joint" type="continuous">
+    <parent link="base_frame"/>
+    <child link="right_motor"/>
+   <origin xyz="-0 0.1846 -0.113" rpy="0 -0 0"/>
+   <axis xyz="0 -1 0" />
+  <!-- <limit upper="1.79769e+308" lower="-1.79769e+308" effort="-1" velocity="-1" /> -->
+  </joint>
+  
+   <joint name="wheel_right_joint" type="continuous">
+
+    <parent link="base_frame"/>
+    <child link="left_motor"/>
+    <origin xyz = "0 -0.1846 -0.113" rpy ="0 -0 0"/>
+    <axis xyz="0 1 0" />
+  <!--   <axis xyz="0 -1 0" />
+   <limit upper="1.79769e+308" lower="-1.79769e+308" effort="-1" velocity="-1" /> -->
+  </joint>
+  
+</robot>
